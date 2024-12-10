@@ -35,7 +35,7 @@ export class FileSyncManager {
         };
       }
     };
-    generateStructure(rootPath);
+    return generateStructure(rootPath);
   }
 }
 
@@ -43,11 +43,18 @@ export class Space {
   private Id: string;
   private admin: User;
   private Users: User[];
+  private fileSyncManager: FileSyncManager | null;
 
   constructor(Id: string, admin: User) {
     this.Id = Id;
     this.admin = admin;
     this.Users = [];
+    this.fileSyncManager = null;
+  }
+
+  initilizeSpaceFiles(rootpath: string) {
+    this.fileSyncManager = new FileSyncManager();
+    this.fileSyncManager.generateFileStructure(rootpath);
   }
 
   public addUser(new_user: User) {
