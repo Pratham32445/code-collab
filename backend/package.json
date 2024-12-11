@@ -4,17 +4,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev" : "tsc -b && node dist/index.js"
+    "dev": "tsc -b && node dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.0.1",
+    "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.0",
-    "@types/ws": "^8.5.13",
+    "@types/jsonwebtoken": "^9.0.7",
+    "cookie-parser": "^1.4.7",
     "express": "^4.21.2",
-    "uuid": "^11.0.3",
-    "ws": "^8.18.0"
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.0.1",
+    "zod": "^3.24.1"
   }
 }

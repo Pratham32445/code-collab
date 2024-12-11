@@ -1,8 +1,13 @@
-import ws, { WebSocketServer } from "ws";
-import { User } from "./User";
+import express from "express";
+import cookieParser from "cookie-parser";
+import { userRouter } from "./routes/User.routes";
 
-const wss = new WebSocketServer({port : 3000});
+const app = express();
 
-wss.on("connection",(ws)=>{
-    const user = new User("32",ws);
-})
+app.use(cookieParser());
+
+app.use(express.json());
+
+app.use("/app/v1/user",userRouter);
+
+app.listen(3001);
