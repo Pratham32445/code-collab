@@ -4,7 +4,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 
-const client = new S3Client({
+const r2Client = new S3Client({
   region: "auto",
   endpoint: process.env.END_POINT!,
   credentials: {
@@ -19,7 +19,7 @@ export const copyFolder = async (src_folder: string, dest_folder: string) => {
       Bucket: process.env.SRC_BUCKET!,
       Prefix: src_folder,
     });
-    const res = await client.send(listCommand);
+    const res = await r2Client.send(listCommand);
     if (!res) return;
     for (const object of res.Contents!) {
       const objectKey = object.Key;
@@ -30,7 +30,7 @@ export const copyFolder = async (src_folder: string, dest_folder: string) => {
         CopySource: `/${process.env.SRC_BUCKET!}/${objectKey}`,
         Key: destinationKey!,
       });
-      await client.send(cmd);
+      await r2Client.send(cmd);
     }
     return true;
   } catch (error) {

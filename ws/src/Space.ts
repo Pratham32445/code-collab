@@ -5,56 +5,18 @@ import path from "path";
 interface FileStructure {
   name: string;
   type: "file" | "folder";
-  children?: FileStructure[];
-  content?: string;
   path?: string;
-}
-
-export class FileSyncManager {
-  generateFileStructure(rootPath: string) {
-    const generateStructure = (currentPath: string): FileStructure => {
-      const name = path.basename(rootPath);
-      const stat = fs.statSync(rootPath);
-
-      if (stat.isDirectory()) {
-        const children = fs
-          .readdirSync(currentPath)
-          .map((item) => generateStructure(path.join(currentPath, item)));
-        return {
-          name,
-          type: "folder",
-          children,
-          path: currentPath,
-        };
-      } else {
-        return {
-          name,
-          type: "file",
-          content: fs.readFileSync(currentPath, "utf-8"),
-          path: currentPath,
-        };
-      }
-    };
-    return generateStructure(rootPath);
-  }
 }
 
 export class Space {
   private Id: string;
   private Users: User[];
-  private fileSyncManager: FileSyncManager | null;
   private admin: User | null;
 
   constructor(Id: string) {
     this.Id = Id;
     this.Users = [];
-    this.fileSyncManager = null;
     this.admin = null;
-  }
-
-  initilizeSpaceFiles(rootpath: string) {
-    this.fileSyncManager = new FileSyncManager();
-    this.fileSyncManager.generateFileStructure(rootpath);
   }
 
   addUser(new_user: User, user_spaces: any) {
@@ -65,16 +27,62 @@ export class Space {
     if (!this.admin) {
       if (this.isAdmin(user_spaces)) {
         this.admin = new_user;
+        this.spaceInfo(new_user, true);
         return;
       }
     }
     const isUser = this.Users.find((user) => user.getId() == new_user.getId());
     if (!isUser) {
       this.Users.push(new_user);
+      this.spaceInfo(new_user);
     }
   }
 
   private isAdmin(spaces: any) {
     return spaces.find((space: { Id: any }) => space.Id == this.Id);
+  }
+
+  private spaceInfo(user: User, isAdmin = false) {
+    const rootPath = path.join(__dirname, "./projects", this.Id);
+
+    const Info = {
+      type: "space-info",
+      data: {
+        Id: this.Id,
+        admin: this.admin,
+        users: this.Users,
+        Structure: this.getFolderAndFiles(rootPath),
+        isAdmin,
+      },
+    };
+
+    this.SendUser(user, Info);
+  }
+
+  private SendUser(user: User, payload: any) {
+    user.getWs().send(JSON.stringify(payload));
+  }
+
+  private getFolderAndFiles(rootPath: string) {
+    const Structure: FileStructure[] = [];
+    const files = fs.readdirSync(rootPath);
+    files.forEach((file) => {
+      const fullPath = path.join(rootPath, file);
+      const isDir = fs.statSync(fullPath);
+      if (isDir.isDirectory()) {
+        Structure.push({
+          name: file,
+          type: "folder",
+          path: fullPath,
+        });
+      } else {
+        Structure.push({
+          name: file,
+          type: "file",
+          path: fullPath,
+        });
+      }
+    });
+    return Structure;
   }
 }

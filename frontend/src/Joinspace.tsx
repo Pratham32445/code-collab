@@ -8,7 +8,7 @@ const Joinspace = () => {
     const navigate = useNavigate();
     const JoinSpace = () => {
         if (spaceId) {
-            navigate(`/space/:id`)
+            navigate(`/space/${spaceId}`)
         }
     }
     return (

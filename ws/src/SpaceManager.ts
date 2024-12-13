@@ -1,3 +1,5 @@
+import path from "path";
+import { saveToLocal } from "./fs";
 import { Space } from "./Space";
 import { User } from "./User";
 
@@ -16,11 +18,13 @@ export class SpaceManager {
     return this.Instance;
   }
 
-  joinUser(spaceId: string, user: User, user_spaces: any) {
-    let space : Space;
+  async joinUser(spaceId: string, user: User, user_spaces: any) {
+    let space: Space;
     if (!this.spaces.has(spaceId)) {
-      space = new Space(spaceId);
-      this.spaces.set(spaceId, space);
+      if (await saveToLocal(spaceId)) {
+        space = new Space(spaceId);
+        this.spaces.set(spaceId, space);
+      }
     }
     space = this.spaces.get(spaceId)!;
     space?.addUser(user, user_spaces);

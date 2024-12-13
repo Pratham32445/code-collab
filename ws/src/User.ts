@@ -21,6 +21,9 @@ export class User {
   public getId() {
     return this.Id;
   }
+  public getWs() : WebSocket {
+    return this.ws;
+  }
   async initUser(Id: string) {
     const user = await client.user.findFirst({ where: { Id } });
     this.Id = user?.Id!;
