@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { createSpace } from "../controllers/Space.controller";
+import { userMiddleware } from "../middlewares/user";
 
-const router = Router();
+const spaceRouter = Router();
 
-router.post("/create-space", createSpace);
+//@ts-ignore
+spaceRouter.post("/create-space",userMiddleware, createSpace);
+
+export default spaceRouter;

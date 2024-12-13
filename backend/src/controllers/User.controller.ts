@@ -53,6 +53,11 @@ export const Signin = async (req: Request, res: Response) => {
     });
     if (isUser) {
       if (isUser.password == result.data.password) {
+        const token = jwt.sign({ Id: isUser.Id }, process.env.JWT_PASSWORD!);
+        res.cookie("authToken", token, {
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
         return res.status(201).json({
           message: "Logged in succesfully",
         });
