@@ -8,7 +8,7 @@ const Dashborad = ({ spaceInfo }: { spaceInfo: any }) => {
                 <Sidebar Structure={spaceInfo.Structure} />
             </div>
             <div className='w-5/6'>
-                <Editor />
+                <Editor spaceId={spaceInfo.Id} />
             </div>
         </div>
     )

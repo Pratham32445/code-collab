@@ -18,6 +18,10 @@ export class SpaceManager {
     return this.Instance;
   }
 
+  public getSpace(spaceId : string) {
+    return this.spaces.get(spaceId);
+  }
+
   async joinUser(spaceId: string, user: User, user_spaces: any) {
     let space: Space;
     if (!this.spaces.has(spaceId)) {

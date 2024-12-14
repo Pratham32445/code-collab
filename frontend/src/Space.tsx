@@ -2,17 +2,19 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Dashborad from './components/Dashborad';
 import { useRecoilState } from 'recoil';
-import { OpenedFileContent, OpenedFileExtension, OpenedFilePath, userSocket } from './store';
+import { IncomingChange, OpenedFileContent, OpenedFileExtension, userSocket } from './store';
+import Cookies from "js-cookie";
 
 const Space = () => {
   const { spaceId } = useParams();
   const [loading, setLoading] = useState(true);
   const [spaceInfo, setSpaceInfo] = useState<any>(null);
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjU5NGQyNzRhLWVjMDktNDdmZi04MGQzLTQxOTY1OTIyZTA1YyIsImlhdCI6MTczNDA5MDI4NX0.RmHAeWIvmm46DXJvqlggJiQjvAb-UkzyrS8UfyJ474o"
+  const token = Cookies.get("authToken");
   const wsRef = useRef<null | WebSocket>(null);
   const [, setWs] = useRecoilState(userSocket);
   const [, setContent] = useRecoilState(OpenedFileContent);
   const [, setExtension] = useRecoilState(OpenedFileExtension);
+  const [, setIncomingChange] = useRecoilState(IncomingChange);
 
   useEffect(() => {
     if (spaceId) {
@@ -47,6 +49,13 @@ const Space = () => {
       case "getFile-content":
         setContent(message.data.content);
         setExtension(message.data.extension);
+        break;
+      case "IncomingFileChange":
+        console.log(message);
+        setIncomingChange({
+          filePath: message.data.filePath,
+          fileContent: message.data.fileContent
+        })
         break;
       default:
         break;

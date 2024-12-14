@@ -82,4 +82,9 @@ export class Space {
     });
     return Structure;
   }
+
+  public getUsers() {
+    return this.Users;
+  }
+
 }

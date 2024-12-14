@@ -1,6 +1,7 @@
 import Joinspace from './Joinspace'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Space from './Space'
+import Login from './Login'
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/space/:spaceId",
     element: <Space />
+  },
+  {
+    path : "/login",
+    element : <Login/>
   }
 ])
 

@@ -60,11 +60,27 @@ export class User {
             })
           );
           break;
-          
         case "file-update":
           const filePath = parsedData.payload.filePath;
           const fileContent = parsedData.payload.content;
+          const spaceId = parsedData.payload.spaceId;
+          const userSocket = parsedData.payload.ws;
           updateFileContent(filePath, fileContent);
+          const space = SpaceManager.getInstance().getSpace(spaceId);
+          space?.getUsers().forEach((user) => {
+            console.log(user.Id, this.Id);
+            if (user.Id != this.Id) {
+              user.ws.send(
+                JSON.stringify({
+                  type: "IncomingFileChange",
+                  data: {
+                    filePath,
+                    fileContent,
+                  },
+                })
+              );
+            }
+          });
           break;
         default:
           break;

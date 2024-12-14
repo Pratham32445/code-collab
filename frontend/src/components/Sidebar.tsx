@@ -24,8 +24,9 @@ const Sidebar = ({ Structure }) => {
     }
 
     return (
-        <div>
-            <div className='w-full mt-[30px] min-h-screen px-4'>
+        <div className="border-r">
+            
+            <div className='w-full mt-[30px]  min-h-screen px-4'>
                 {
                     Structure.map((FileInfo: File) => (
                         <div onClick={() => FileInfo.type == "file" && selectedFile(FileInfo.path)} className="flex items-center gap-3 my-1 cursor-pointer hover:bg-neutral-900 mb-2">
