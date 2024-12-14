@@ -2,6 +2,7 @@ import { WebSocket } from "ws";
 import jwt from "jsonwebtoken";
 import client from "./client";
 import { SpaceManager } from "./SpaceManager";
+import { getFileContent, updateFileContent } from "./fs";
 
 export class User {
   private Id: string | null;
@@ -21,7 +22,7 @@ export class User {
   public getId() {
     return this.Id;
   }
-  public getWs() : WebSocket {
+  public getWs(): WebSocket {
     return this.ws;
   }
   async initUser(Id: string) {
@@ -45,8 +46,25 @@ export class User {
                 space: true,
               },
             });
-            SpaceManager.getInstance().joinUser(Id, this,user?.space);
+            SpaceManager.getInstance().joinUser(Id, this, user?.space);
           }
+          break;
+        case "sendFilePath":
+          const path = parsedData.payload.filePath;
+          const content = await getFileContent(path);
+          this.ws.send(
+            JSON.stringify({
+              type: "getFile-content",
+              data: content,
+              path,
+            })
+          );
+          break;
+          
+        case "file-update":
+          const filePath = parsedData.payload.filePath;
+          const fileContent = parsedData.payload.content;
+          updateFileContent(filePath, fileContent);
           break;
         default:
           break;

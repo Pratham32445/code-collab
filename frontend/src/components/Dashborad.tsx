@@ -1,10 +1,15 @@
+import Editor from './Editor';
 import Sidebar from './Sidebar';
 
 const Dashborad = ({ spaceInfo }: { spaceInfo: any }) => {
-    console.log(spaceInfo);
     return (
-        <div>
-            <Sidebar />
+        <div className='w-full h-full flex'>
+            <div className='w-1/6'>
+                <Sidebar Structure={spaceInfo.Structure} />
+            </div>
+            <div className='w-5/6'>
+                <Editor />
+            </div>
         </div>
     )
 }

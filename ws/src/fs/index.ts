@@ -69,3 +69,24 @@ export const saveToLocal = async (spaceId: string) => {
     return false;
   }
 };
+
+export const getFileContent = async (filePath: string) => {
+  const fileName = filePath.split("\\").pop() || filePath.split("/").pop();
+  let fileExtension = "txt";
+  if (fileName && fileName?.split(".").length > 1)
+    fileExtension = fileName?.split(".")[fileName.split(".").length - 1];
+  const res = await fs.promises.readFile(filePath, "utf-8");
+  const data = {
+    content: res,
+    extension: fileExtension == "md" ? "markdown" : fileExtension,
+  };
+  return data;
+};
+
+export function updateFileContent(filepath: string, fileContent: string) {
+  console.log(filepath);
+  fs.writeFile(filepath, fileContent, (err) => {
+    if (err) return false;
+    return true;
+  });
+}

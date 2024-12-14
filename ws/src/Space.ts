@@ -31,11 +31,8 @@ export class Space {
         return;
       }
     }
-    const isUser = this.Users.find((user) => user.getId() == new_user.getId());
-    if (!isUser) {
-      this.Users.push(new_user);
-      this.spaceInfo(new_user);
-    }
+    this.Users.push(new_user);
+    this.spaceInfo(new_user);
   }
 
   private isAdmin(spaces: any) {
