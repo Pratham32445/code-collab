@@ -84,7 +84,6 @@ export const getFileContent = async (filePath: string) => {
 };
 
 export function updateFileContent(filepath: string, fileContent: string) {
-  console.log(filepath);
   fs.writeFile(filepath, fileContent, (err) => {
     if (err) return false;
     return true;

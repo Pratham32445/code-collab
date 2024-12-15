@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 const Space = () => {
   const { spaceId } = useParams();
   const [loading, setLoading] = useState(true);
-  const [spaceInfo, setSpaceInfo] = useState<any>(null);
+  const [spaceInfo, setSpaceInfo] = useState<string | null>(null);
   const token = Cookies.get("authToken");
   const wsRef = useRef<null | WebSocket>(null);
   const [, setWs] = useRecoilState(userSocket);
@@ -17,7 +17,7 @@ const Space = () => {
   const [, setIncomingChange] = useRecoilState(IncomingChange);
 
   useEffect(() => {
-    if (spaceId) {
+    if (spaceId && spaceId.length > 0) {
       setLoading(true);
       wsRef.current = new WebSocket(`ws://localhost:3000?token=${token}`);
 
@@ -51,10 +51,9 @@ const Space = () => {
         setExtension(message.data.extension);
         break;
       case "IncomingFileChange":
-        console.log(message);
         setIncomingChange({
           filePath: message.data.filePath,
-          fileContent: message.data.fileContent
+          fileChanges: message.data.fileChanges
         })
         break;
       default:

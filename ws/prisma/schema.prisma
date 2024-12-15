@@ -14,14 +14,14 @@ datasource db {
 }
 
 model Space {
-  Id        String    @id 
+  Id        String   @id 
   spaceName String
   adminId   String
-  admin     User      @relation(fields: [adminId], references: [Id])
+  admin     User     @relation(fields: [adminId], references: [Id])
   thumbnail String
-  createdAt DateTime  @default(now())
-  type      SpaceType @default(PRIVATE)
-  template  Template
+  createdAt DateTime @default(now())
+  type SpaceType @default(PRIVATE)
+  template Template
 }
 
 model User {
@@ -34,7 +34,7 @@ model User {
 
 enum Template {
   REACT_VITE
-  NEXTJS
+  NEXT_APP
   EXPO_REACT_NAVITE
 }
 

@@ -76,16 +76,18 @@ export const Mapping = {
   zip: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/filetype/filetype-zip.svg",
   pdf: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/filetype/filetype-pdf.svg",
   txt: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/filetype/filetype-txt.svg",
+  mjs : "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
 };
 
 
 export const languageExtensions = {
   js: 'javascript',
+  mjs : "javascript",
   jsx: 'React JSX',
   ts: 'typescript',
   tsx: 'TypeScript React',
   html: 'html',
-  htm: 'html',
+  htm: 'html',  
   css: 'css',
   scss: 'scss',
   sass: 'Sass',

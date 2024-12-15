@@ -34,7 +34,7 @@ model User {
 
 enum Template {
   REACT_VITE
-  NEXTJS
+  NEXT_APP
   EXPO_REACT_NAVITE
 }
 

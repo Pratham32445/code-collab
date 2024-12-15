@@ -31,5 +31,9 @@ export const IncomingChange = atom<IncomingFileChange | null>({
 
 interface IncomingFileChange {
   filePath: string;
-  fileContent: string;
+  fileChanges: {
+    rangeOffSet: number,
+    rangeLength: number,
+    text: string;
+  }[]
 }

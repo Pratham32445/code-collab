@@ -62,10 +62,9 @@ export class User {
           break;
         case "file-update":
           const filePath = parsedData.payload.filePath;
-          const fileContent = parsedData.payload.content;
+          const fileChanges = parsedData.payload.changes ;
           const spaceId = parsedData.payload.spaceId;
-          const userSocket = parsedData.payload.ws;
-          updateFileContent(filePath, fileContent);
+          updateFileContent(filePath, parsedData.payload.fullChange);
           const space = SpaceManager.getInstance().getSpace(spaceId);
           space?.getUsers().forEach((user) => {
             console.log(user.Id, this.Id);
@@ -75,7 +74,7 @@ export class User {
                   type: "IncomingFileChange",
                   data: {
                     filePath,
-                    fileContent,
+                    fileChanges,
                   },
                 })
               );
